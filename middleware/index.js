@@ -7,7 +7,7 @@ const isAuthenticated = require("./isAuthenticated.middleware");
 
 //Routes
 const indexRoutes = require("../routes/index.routes");
-const authRoutes = require("../routes/auth.routes");
+const authRoutes = require("../routes/user.routes");
 const protectedRoutes = require("../routes/protected.routes");
 
 module.exports = (app) => {
