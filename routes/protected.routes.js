@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const verify = require("../middleware/verifyUserToken.middleware");
+const { verifyToken } = require("../middleware/verifyToken.middleware");
 
-router.get("/protected", verify, (req, res) => {
+router.get("/protected", verifyToken, (req, res) => {
   res.send("This is a protected route");
 });
 
