@@ -2,8 +2,9 @@ const router = require("express").Router();
 const User = require("../models/User.model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { verifyUser } = require("../middleware/verifyUser.middleware.js");
 
-//Signup the route
+//Signup route
 router.post("/signup", async (req, res) => {
   //Hash the password
   const salt = await bcrypt.genSalt(10);
