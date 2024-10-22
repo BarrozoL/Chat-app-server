@@ -10,7 +10,10 @@ router.get("/users/:userId", async (req, res, next) => {
   const { userId } = req.params;
 
   try {
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId)
+      .select("-password")
+      .populate("conversations")
+      .populate({ path: "conversations", populate: ["messages", "members"] });
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
