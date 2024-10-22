@@ -10,7 +10,7 @@ router.get("/users/:userId", async (req, res, next) => {
   const { userId } = req.params;
 
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("-password");
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
@@ -94,11 +94,11 @@ router.post("/login", async (req, res, next) => {
     if (foundUser && passwordCorrect) {
       const { _id, username, email } = foundUser;
       const payload = { _id, username, email };
-      const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
+      const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
         algorithm: "HS256",
         expiresIn: "8h",
       });
-      res.status(200).json({ token, payload });
+      res.status(200).json({ authToken: authToken, payload });
     } else {
       res.status(401).json({ message: "Unable to authenticate the user" });
     }
