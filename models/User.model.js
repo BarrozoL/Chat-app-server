@@ -17,6 +17,13 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  conversations: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Conversation",
+  },
+  notifications: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
+  sentMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
+  receivedMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
 });
 
 module.exports = mongoose.model("User", UserSchema);
