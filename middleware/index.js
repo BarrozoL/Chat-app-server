@@ -9,6 +9,7 @@ const isAuthenticated = require("./isAuthenticated.middleware");
 const indexRoutes = require("../routes/index.routes");
 const userRoutes = require("../routes/user.routes");
 const protectedRoutes = require("../routes/protected.routes");
+const messageRoutes = require("../routes/message.routes");
 
 module.exports = (app) => {
   app.use(
@@ -24,5 +25,6 @@ module.exports = (app) => {
   //Routes
   app.use("/", indexRoutes);
   app.use("/auth", userRoutes);
+  app.use("/api", messageRoutes);
   app.use("/protected", verifyToken, protectedRoutes);
 };
