@@ -21,6 +21,9 @@ const UserSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Conversation",
   },
+  imageUrl: {
+    type: String,
+  },
   notifications: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
   sentMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
   receivedMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],

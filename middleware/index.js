@@ -12,6 +12,7 @@ const protectedRoutes = require("../routes/protected.routes");
 const messageRoutes = require("../routes/message.routes");
 
 module.exports = (app) => {
+  app.set("trust proxy", 1);
   app.use(
     cors({
       origin: process.env.ORIGIN || "http://localhost:5173",
@@ -24,7 +25,10 @@ module.exports = (app) => {
 
   //Routes
   app.use("/", indexRoutes);
+
   app.use("/auth", userRoutes);
+
   app.use("/api", messageRoutes);
+
   app.use("/protected", verifyToken, protectedRoutes);
 };

@@ -4,6 +4,23 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const isAuthenticated = require("../middleware/isAuthenticated.middleware.js");
 const { verifyUser } = require("../middleware/verifyUser.middleware.js");
+// ********* require fileUploader in order to use it *********
+const fileUploader = require("../config/cloudinary.config");
+
+// POST "/api/upload" => Route that receives the image, sends it to Cloudinary via the fileUploader and returns the image URL
+router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
+  // console.log("file is: ", req.file)
+
+  if (!req.file) {
+    next(new Error("No file uploaded!"));
+    return;
+  }
+
+  // Get the URL of the uploaded file and send it as a response.
+  // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+
+  res.json({ fileUrl: req.file.path });
+});
 
 //Get a user by id
 router.get("/users/:userId", async (req, res, next) => {
@@ -26,7 +43,7 @@ router.get("/users/:userId", async (req, res, next) => {
 
 //Post a new user - Signup route
 router.post("/signup", async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, imageUrl } = req.body;
 
   if (username === "" || email === "" || password === "") {
     res
@@ -64,12 +81,14 @@ router.post("/signup", async (req, res, next) => {
       username,
       email,
       password: hashedPassword,
+      imageUrl,
     });
 
     //Hide password from response
     const createdUser = {
       username,
       email,
+      imageUrl,
     };
 
     res.status(201).json({ user: createdUser });
